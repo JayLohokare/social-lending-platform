@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(Rfacebook)\nlibrary(RCurl)\n\n#fb_oauth <- fbOAuth(app_id=\"389540558153177\", app_secret=\"81a55e45e030981bc4c6fda4bbb8ff69\",extended_permissions = TRUE)\n\n\n#friends <- getFriends(token=fb_oauth, simply = TRUE)\n \n\n#fb_oauth <- fbOAuth(app_id=\"389540558153177\", app_secret=\"81a55e45e030981bc4c6fda4bbb8ff69\")\n#save(fb_oauth, file=\"fb_oauth\")\nload(\"fb_oauth\")\nme <- getUsers(\"me\", token=fb_oauth)\nfriends <- getFriends(token=fb_oauth )\nprint (friends)",
+    "created" : 1512293734175.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1896465229",
+    "id" : "E72EF117",
+    "lastKnownWriteTime" : 1512294972,
+    "last_content_update" : -2147483648,
+    "path" : "I:/Skyline Labs/Projects/YHacks 2017/R Facebook/Facebook API.R",
+    "project_path" : "Facebook API.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

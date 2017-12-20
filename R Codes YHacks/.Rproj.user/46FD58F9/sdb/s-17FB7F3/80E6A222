@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(mongolite)\nlibrary(\"nnet\")\n\nusers <- mongo(collection = \"users\", db = \"r_db\", url = \"mongodb://localhost\", verbose = TRUE)\nuser_info <- mongo(collection = \"user_info\", db = \"r_db\", url = \"mongodb://localhost\", verbose = TRUE)\n\ncurrentDate<-Sys.Date()\n\nmonth<-format(currentDate,\"%m\")\nyear<-format(currentDate,\"%Y\")\n\n#month<-6\n#year<-2017\n\nuser <- users$aggregate(\n  \n  paste0( '[{\"$match\":{\"month\" : ', as.integer(month) , ',\"year\" :', year, '}}]' )\n  \n)\n\n\n\n###################\n\nfor(i in 1 : dim(user)[1]) {\n  name <- user[i, \"name\"]\n  balance_score_intermediate <- user[i, \"total_bank_balance\"]\n  income_score_intermediate <- user[i, \"totalamount_transactions_credit\"]\n  social_media_score_intermediate <- user[i, \"tweets_sentiment\"]\n  loan_history_score <- user[i, \"loan_history_score\"]\n  repay_score <- user[i, \"repay_score\"]\n  balance_score <- balance_score_intermediate / 100000\n  income_score <- income_score_intermediate / 100000\n  social_media_score <- (social_media_score_intermediate + 5) * 10\n  \n  total_score <- (repay_score * 0.35) + (social_media_score * 0.05) + (loan_history_score * 0.2) + (income_score * 0.2) + (balance_score * 0.2)\n  \n  print(total_score)\n  #data <- data.frame(social_media_score, loan_history_score, balance_score, income_score, repay_score)\n  #print(data)\n  #predicted_class = predict_class(data)\n  #print(predicted_class)\n  \n  if (total_score > 80) {\n    result[i] = '5'\n  }\n  \n  else if (total_score > 60 && total_score <= 80) {\n    result[i] = '4'\n  }\n  \n  else if (total_score > 40 && total_score <= 60) {\n    result[i] = '3'\n  }\n  \n  else if (total_score > 20 && total_score <= 40) {\n    result[i] = '2'\n  }\n  else\n    result[i] = '1'\n  \n  \n  print(result[i])\n  user_info$update(query = paste0('{\"name\":\"', name,'\"}'), update = paste0('{\"$set\":{\"credit_score\": ', result[i], '}}'), upsert = TRUE)\n  \n}",
+    "created" : 1512293276975.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2403603962",
+    "id" : "80E6A222",
+    "lastKnownWriteTime" : 1512311467,
+    "last_content_update" : -2147483648,
+    "path" : "I:/Skyline Labs/Projects/YHacks 2017/R Facebook/YHacks_Credit_predict_class.R",
+    "project_path" : "YHacks_Credit_predict_class.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
